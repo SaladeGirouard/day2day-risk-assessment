@@ -86,6 +86,17 @@ try:
        else:
            return 'positive'
 
+
+   def color_negative_red(value):
+       if value < 0:
+           color = 'red'
+       elif value > 0:
+           color = 'green'
+       else:
+           color = 'black'
+       return 'color: %s' % color
+
+
    ### DATA PREP ###
    #Total balance:
    balance_d2= totalbalance(df_d2).reset_index()
@@ -144,7 +155,7 @@ try:
            plot_bgcolor='rgba(0,0,0,0)',
        )
 
-       # fig4.update_traces(name='D-2', showlegend = True)
+       fig4.update_traces(showlegend = True)
        # fig4.update_traces(name='D-1', showlegend = True)
 
        st.plotly_chart(fig4, use_container_width=True)
@@ -184,11 +195,13 @@ try:
    delta_month=materialbalance_d2_d1[['Position Date','Material','MTM Quantity', 'MTM Absolute Quantity']
        ].loc[materialbalance_d2_d1['Position Date']==selectionMois].sort_values(by='Material')
 
+
    delta_month = delta_month.loc[delta_month['MTM Quantity']!=0.0]
    delta_month=delta_month.sort_values(by='MTM Absolute Quantity', ascending=False)
    delta_month=delta_month[['Position Date','Material','MTM Quantity']]
 
-   st.dataframe(delta_month)
+
+   st.dataframe(delta_month.style.applymap(color_negative_red, subset=['MTM Quantity']))
    # total_qty_delta=delta_month['MTM Quantity'].sum()
    # st.metric(label="Verification total quantity", value=total_qty_delta),
 
