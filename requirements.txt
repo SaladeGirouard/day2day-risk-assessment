@@ -13,4 +13,4 @@ easy-pil==0.1.6
 jinja2-time==0.2.0
 mkl-random==1.2.2
 mpmath==1.2.1
-scipy == 1.8.1
+scipy==1.8.1
